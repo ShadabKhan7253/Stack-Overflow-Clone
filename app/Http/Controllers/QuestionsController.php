@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateQuestionRequest;
+use App\Http\Requests\UpdateQuestionRequest;
 use App\Models\Question;
 
 class QuestionsController extends Controller
@@ -29,6 +30,24 @@ class QuestionsController extends Controller
         ]);
 
         session()->flash('success', 'Question has been added successfully!');
+        return redirect(route('questions.index'));
+    }
+
+    public function edit(Question $question)
+    {
+        return view('questions.edit', compact([
+            'question'
+        ]));
+    }
+
+    public function update(UpdateQuestionRequest $request, Question $question)
+    {
+        $question->update([
+            'title'=>$request->title,
+            'body'=>$request->body
+        ]);
+
+        session()->flash('success', 'Question has been updated successfully!');
         return redirect(route('questions.index'));
     }
 }
