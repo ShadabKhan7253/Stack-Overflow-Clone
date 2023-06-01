@@ -30,9 +30,13 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 ms-3">
-                                    <h4>
-                                        <a href="{{ $question->url }}">{{ $question->title }}</a>
-                                    </h4>
+                                    <div class="d-flex justify-content-between">
+                                        <h4>
+                                            <a href="{{ $question->url }}">{{ $question->title }}</a>
+                                        </h4>
+                                        <a href="{{ route('questions.edit', $question->id) }}"
+                                            class="btn btn-outline-info">Edit</a>
+                                    </div>
                                     <p>
                                         Asked By: <a href="#">{{ $question->owner->name }}</a>
                                         <span class="text-muted">{{ $question->created_date }}</span>
