@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Question extends Model
@@ -19,6 +20,10 @@ class Question extends Model
 
     public function owner() {
         return $this->belongsTo(User::class,'user_id');
+    }
+
+    public function answer() {
+        return $this->hasMany(Answer::class);
     }
 
     public function getUrlAttribute() {
@@ -37,4 +42,5 @@ class Question extends Model
         }
         return 'unanswered';
     }
+
 }

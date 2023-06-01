@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Answer;
 use App\Models\Question;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -25,13 +26,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\User::factory(10)->create()->each(function($user) {
-            for($i=0;$i<random_int(5,10);$i++) {
-                $user->questions()->create(
-                    Question::factory()
-                        ->make()
-                        ->toArray()
-                );
-            }
+                $user->questions()->saveMany(
+                    Question::factory(random_int(5,10))->make()
+                    )->each(function($question) {
+                        $question->answer()->saveMany(
+                            Answer::factory(random_int(2,8))->make()
+                        );
+                    });
         });
 
         // \App\Models\User::factory()->create([
