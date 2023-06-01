@@ -35,27 +35,35 @@ class QuestionsController extends Controller
 
     public function edit(Question $question)
     {
-        return view('questions.edit', compact([
-            'question'
-        ]));
+        if($this->authorize('delete',$question)) {
+            return view('questions.edit', compact([
+                'question'
+            ]));
+        }
+        abort(403);
     }
 
     public function update(UpdateQuestionRequest $request, Question $question)
     {
-        $question->update([
-            'title'=>$request->title,
-            'body'=>$request->body
-        ]);
+        if($this->authorize('delete',$question)) {
+            $question->update([
+                'title'=>$request->title,
+                'body'=>$request->body
+            ]);
 
-        session()->flash('success', 'Question has been updated successfully!');
-        return redirect(route('questions.index'));
+            session()->flash('success', 'Question has been updated successfully!');
+            return redirect(route('questions.index'));
+        }
     }
 
     public function destroy(Question $question) {
-        $question->delete();
+        if($this->authorize('delete',$question)) {
+            $question->delete();
 
-        session()->flash('success', 'Question has been deleted successfully!');
-        return redirect(route('questions.index'));
+            session()->flash('success', 'Question has been deleted successfully!');
+            return redirect(route('questions.index'));
+        }
+        abort(403);
     }
 
     public function show(Question $question) {

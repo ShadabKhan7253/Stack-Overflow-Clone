@@ -35,13 +35,17 @@
                                             <a href="{{ $question->url }}">{{ $question->title }}</a>
                                         </h4>
                                         <div class="d-flex">
-                                            <a href="{{ route('questions.edit', $question->id) }}"
-                                                class="btn btn-outline-info me-2">Edit</a>
-                                            <form action="{{ route('questions.destroy', $question->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-outline-danger">Delete</button>
-                                            </form>
+                                            @can('update', $question)
+                                                <a href="{{ route('questions.edit', $question->id) }}"
+                                                    class="btn btn-outline-info me-2">Edit</a>
+                                            @endcan
+                                            @can('delete', $question)
+                                                <form action="{{ route('questions.destroy', $question->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-outline-danger">Delete</button>
+                                                </form>
+                                            @endcan
                                         </div>
                                     </div>
                                     <p>
