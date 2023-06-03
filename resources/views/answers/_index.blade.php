@@ -17,6 +17,24 @@
                                 <a href="#" title="Down Vote" class="down-vote d-block text-center text-dark"><i
                                         class="fa fa-caret-down fa-3x"></i></a>
                             </div>
+                            <div class="mt-2">
+                                @can('markAsBest', $question)
+                                    <form action="{{ route('questions.answers.markAsBest', [$question->id, $answer->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit"
+                                            class="btn {{ $answer->getBestAnswerStyleAttribute($question) }}">
+                                            <i class="fa fa-check fa-2x"></i>
+                                        </button>
+                                    </form>
+                                @else
+                                    <button type="button"
+                                        class="btn {{ $answer->getBestAnswerStyleAttribute($question) }}">
+                                        <i class="fa fa-check fa-2x"></i>
+                                    </button>
+                                @endcan
+                            </div>
                             <div class="ms-4 mt-3 d-flex">
                                 @can('update', $answer)
                                     <div class="me-2">
@@ -24,7 +42,7 @@
                                             class="btn btn-sm btn-outline-info">Edit</a>
                                     </div>
                                 @endcan
-                                @can('delete', $answer)
+                                @can('delete', [$answer, $question])
                                     <form action="{{ route('questions.answers.destroy', [$question->id, $answer->id]) }}"
                                         method="POST">
                                         @csrf

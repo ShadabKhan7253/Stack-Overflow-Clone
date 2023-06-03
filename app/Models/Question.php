@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
+use tidy;
 
 class Question extends Model
 {
@@ -42,5 +43,13 @@ class Question extends Model
         }
         return 'unanswered';
     }
+
+    public function markAsBest(Answer $answer) {
+        $this->update(['best_answer_id' => $answer->id]);
+    }
+
+    // public function isBestAnswer(Answer $answer) {
+    //     return $this->best_answer_id === $answer->id;
+    // }
 
 }

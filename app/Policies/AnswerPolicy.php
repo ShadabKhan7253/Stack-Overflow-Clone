@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Answer;
+use App\Models\Question;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -63,9 +64,9 @@ class AnswerPolicy
      * @param  \App\Models\Answer  $answer
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Answer $answer)
+    public function delete(User $user, Answer $answer, Question $question)
     {
-        return $user->id === $answer->user_id;
+        return $user->id === $answer->user_id && $question->best_answer_id !== $answer->id;
     }
 
     /**

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\createAnswerRequest;
+use App\Http\Requests\MarkAsBestRequest;
 use App\Http\Requests\UpdateAnswerRequest;
 use App\Models\Answer;
 use App\Models\Question;
+use GuzzleHttp\Psr7\Query;
 use Illuminate\Http\Request;
 
 class AnswersController extends Controller
@@ -36,13 +38,23 @@ class AnswersController extends Controller
     }
 
     public function destroy(Question $question,Answer $answer) {
-        if($this->authorize('delete',$answer)) {
+        if($this->authorize('delete',[$answer, $question])) {
             $answer->delete();
 
             session()->flash('success', 'Answer deleted successfully!');
-            return redirect($question->url);
+            return redirect()->back();
         }
         abort(403);
+    }
+
+    public function markAsBest(MarkAsBestRequest $request, Question $question, Answer $answer)
+    {
+        $this->authorize('markAsBest',$request);
+        if($answer->question->id !== $question->id) {
+            abort(403);
+        }
+        $question->markAsBest($answer);
+        return redirect()->back();
     }
 
 }

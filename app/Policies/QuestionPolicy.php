@@ -91,4 +91,9 @@ class QuestionPolicy
     {
         //
     }
+
+    public function markAsBest(User $user,Question $question): bool
+    {
+        return $user->id === $question->user_id;
+    }
 }
