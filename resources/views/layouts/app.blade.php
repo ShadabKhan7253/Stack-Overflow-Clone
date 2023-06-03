@@ -16,7 +16,7 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-    @yield('styles')
+    @stack('styles')
 </head>
 
 <body>
