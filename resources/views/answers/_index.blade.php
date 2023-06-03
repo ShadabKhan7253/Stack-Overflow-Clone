@@ -17,10 +17,21 @@
                                 <a href="#" title="Down Vote" class="down-vote d-block text-center text-dark"><i
                                         class="fa fa-caret-down fa-3x"></i></a>
                             </div>
-                            <div class="ms-4 mt-3">
-                                <a href="#" title="Mark as Fav" class="favorite d-block text-center mb-1"><i
-                                        class="fa fa-star fa-2x text-dark"></i></a>
-                                <h4 class="fav-count m-0 text-center">123</h4>
+                            <div class="ms-4 mt-3 d-flex">
+                                @can('update', $answer)
+                                    <div class="me-2">
+                                        <a href="{{ route('questions.answers.edit', [$question->id, $answer->id]) }}"
+                                            class="btn btn-sm btn-outline-info">Edit</a>
+                                    </div>
+                                @endcan
+                                @can('delete', $answer)
+                                    <form action="{{ route('questions.answers.destroy', [$question->id, $answer->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                    </form>
+                                @endcan
                             </div>
                         </div>
                         <div>

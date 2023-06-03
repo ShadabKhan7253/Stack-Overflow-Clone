@@ -9,6 +9,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
+                @include('layouts._alert-mesage')
                 <div class="card">
                     <div class="card-header">
                         <h1>{{ $question->title }}</h1>
