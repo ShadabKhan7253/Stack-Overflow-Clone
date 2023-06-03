@@ -9,6 +9,7 @@ class Answer extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
     public static function boot() {
         parent::boot();
         static::created(function (Answer $answer) {
