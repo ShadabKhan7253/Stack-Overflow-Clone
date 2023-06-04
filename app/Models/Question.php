@@ -31,6 +31,10 @@ class Question extends Model
         return $this->hasMany(Answer::class);
     }
 
+    public function votes() {
+        return $this->morphToMany(User::class,'vote')->withTimestamps();
+    }
+
     public function getUrlAttribute() {
         return "/questions/$this->slug";
     }
