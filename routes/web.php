@@ -34,3 +34,6 @@ Route::post('/questions/{question}/mark-as-fav',[FavoritesController::class,'sto
 Route::delete('/questions/{question}/mark-as-unfav',[FavoritesController::class,'destroy'])->name('questions.mark-as-unfav');
 
 Route::post('/questions/{question}/vote/{vote}',[VotesController::class,'voteQuestion'])->name('questions.vote');
+
+Route::get('/users/notifications', [App\Http\Controllers\UsersController::class, 'notifications'])->name('users.notifications');
+

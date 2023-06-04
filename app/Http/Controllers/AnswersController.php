@@ -7,6 +7,7 @@ use App\Http\Requests\MarkAsBestRequest;
 use App\Http\Requests\UpdateAnswerRequest;
 use App\Models\Answer;
 use App\Models\Question;
+use App\Notifications\NewReplyAdded;
 use GuzzleHttp\Psr7\Query;
 use Illuminate\Http\Request;
 
@@ -17,6 +18,7 @@ class AnswersController extends Controller
             'body' => $request->body,
             'user_id' => auth()->id()
         ]);
+        $question->owner->notify(new NewReplyAdded($question));
         session()->flash('success','Answer added succesfully');
         return redirect($question->url);
     }
