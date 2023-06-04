@@ -49,7 +49,7 @@ class AnswersController extends Controller
 
     public function markAsBest(MarkAsBestRequest $request, Question $question, Answer $answer)
     {
-        $this->authorize('markAsBest',$request);
+        $this->authorize('markAsBest',$question);
         if($answer->question->id !== $question->id) {
             abort(403);
         }

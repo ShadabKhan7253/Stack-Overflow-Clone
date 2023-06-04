@@ -96,4 +96,9 @@ class QuestionPolicy
     {
         return $user->id === $question->user_id;
     }
+
+    public function markAsFav(User $user,Question $question): bool
+    {
+        return $user->id !== $question->user_id;
+    }
 }
