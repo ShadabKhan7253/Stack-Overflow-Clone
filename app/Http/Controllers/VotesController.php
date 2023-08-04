@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Answer;
 use App\Models\Question;
 use Illuminate\Http\Request;
 
@@ -19,6 +20,22 @@ class VotesController extends Controller
         else
         {
             $question->vote($vote);
+        }
+        return redirect()->back();
+    }
+
+    public function voteAnswer(Question $question,Answer $answer, int $vote)
+    {
+        if(auth()->user()->hasVoteForAnswer($question,$answer))
+        {
+            if((auth()->user()->hasAnswerUpVoted($question,$answer) && $vote !== 1) || auth()->user()->hasAnswerDownVoted($question,$answer) && $vote !== -1)
+            {
+                $answer->updateVote($vote);
+            }
+        }
+        else
+        {
+            $answer->vote($vote);
         }
         return redirect()->back();
     }

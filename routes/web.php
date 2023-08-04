@@ -30,10 +30,17 @@ Route::get('/questions/{slug}', [QuestionsController::class,'show'])->name('ques
 Route::resource('questions.answers', AnswersController::class)->except(['create','show']);
 Route::put('/questions/{question}/answers/{answer}/mark-as-best',[AnswersController::class,'markAsBest'])->name('questions.answers.markAsBest');
 
-Route::post('/questions/{question}/mark-as-fav',[FavoritesController::class,'store'])->name('questions.mark-as-fav');
-Route::delete('/questions/{question}/mark-as-unfav',[FavoritesController::class,'destroy'])->name('questions.mark-as-unfav');
+Route::post('/questions/{question}/mark-as-fav',[FavoritesController::class,'store'])
+    ->name('questions.mark-as-fav');
+Route::delete('/questions/{question}/mark-as-unfav',[FavoritesController::class,'destroy'])
+    ->name('questions.mark-as-unfav');
 
-Route::post('/questions/{question}/vote/{vote}',[VotesController::class,'voteQuestion'])->name('questions.vote');
+Route::post('/questions/{question}/vote/{vote}',[VotesController::class,'voteQuestion'])
+    ->name('questions.vote');
 
-Route::get('/users/notifications', [App\Http\Controllers\UsersController::class, 'notifications'])->name('users.notifications');
+Route::post('/questions/{question}/answers/{answer}/vote/{vote}',[VotesController::class,'voteAnswer'])
+    ->name('questions.answers.vote');
+
+Route::get('/users/notifications', [App\Http\Controllers\UsersController::class, 'notifications'])
+    ->name('users.notifications');
 

@@ -87,4 +87,19 @@ class User extends Authenticatable
         return $this->hasQuestionUpVoted($question) || $this->hasQuestionDownVoted($question);
     }
 
+    public function hasAnswerUpVoted(Question $question, Answer $answer)
+    {
+        return $this->votesAnswer()->where(['vote_id'=>$answer->id,'vote'=>1])->exists();
+    }
+
+    public function hasAnswerDownVoted(Question $question, Answer $answer)
+    {
+        return $this->votesAnswer()->where(['vote_id'=>$answer->id,'vote'=>-1])->exists();
+    }
+
+    public function hasVoteForAnswer(Question $question, Answer $answer)
+    {
+        return $this->hasAnswerUpVoted($question,$answer) || $this->hasAnswerDownVoted($question,$answer);
+    }
+
 }

@@ -11,11 +11,27 @@
                     <div class="d-flex justify-content-between me-3">
                         <div class="d-flex">
                             <div>
-                                <a href="#" title="Up Vote" class="up-vote d-block text-center text-dark"><i
-                                        class="fa fa-caret-up fa-3x"></i></a>
+                                @auth
+                                    <form action="{{ route('questions.answers.vote', [$question->id, $answer->id, 1]) }}"
+                                        method="POST">
+                                        @csrf
+                                        <button type="submit" title="Up Vote"
+                                            class="up-vote d-block text-center {{ auth()->user()->hasAnswerUpVoted($question, $answer)? 'text-success': 'text-dark' }} btn"><i
+                                                class="fa fa-caret-up fa-3x"></i></button>
+                                    </form>
+                                @else
+                                    <h5>Votes <br> Count</h5>
+                                @endauth
                                 <h4 class="vote-count text-muted text-center m-0">{{ $answer->votes_count }}</h4>
-                                <a href="#" title="Down Vote" class="down-vote d-block text-center text-dark"><i
-                                        class="fa fa-caret-down fa-3x"></i></a>
+                                @auth
+                                    <form action="{{ route('questions.answers.vote', [$question->id, $answer->id, -1]) }}"
+                                        method="POST">
+                                        @csrf
+                                        <button type="submit" title="Down Vote"
+                                            class="up-vote d-block text-center {{ auth()->user()->hasAnswerDownVoted($question, $answer)? 'text-success': 'text-dark' }} btn"><i
+                                                class="fa fa-caret-down fa-3x"></i></button>
+                                    </form>
+                                @endauth
                             </div>
                             <div class="mt-2">
                                 @can('markAsBest', $question)
